@@ -1,9 +1,7 @@
 package id3;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
+import java.io.IOException;
+import java.util.*;
 
 /**
  * Created by louis on 03/02/2016.
@@ -20,11 +18,10 @@ public class DataSet {
     /**
      * All the attributes key of the data set.
      */
-    private final ArrayList<Integer> attributes;
+    private static final ArrayList<Integer> attributes = new ArrayList<>(DataSetInfo.keySet());
 
     public DataSet() {
         data = new ArrayList<>();
-        attributes = new ArrayList<>(DataSetInfo.keySet());
     }
 
     /**
@@ -78,7 +75,7 @@ public class DataSet {
      * @return the key of the best attribute
      */
     public Integer findBestAttribute() {
-        double minEntropy=0.0f;
+        double minEntropy=-1.0f;
         Integer bestAttribute = -1;
         for (Integer attribute : attributes
                 ) {
@@ -99,37 +96,37 @@ public class DataSet {
      */
     private double computeGain(Integer key) {
         int dataCount = data.size();
-        float entropy = 0.0f;
+        double entropy = 0.0;
         int positiveTotal=0;
         int negativeTotal=0;
-
         Attribute attribute = DataSetInfo.attributes.get(key);
-        Map<String,ArrayList<Data>> attributeCount = new HashMap<>();
+        Map<String, ArrayList<Data>> attributeCount = new HashMap<>();
         for (String value : attribute.getValues()
                 ) {
-            attributeCount.put(value,new ArrayList<>());
+            attributeCount.put(value, new ArrayList<>());
         }
-        for (Data data: this.data
-             ) {
+        for (Data data : this.data
+                ) {
             String attributeValue = data.getAttribute(key);
             attributeCount.get(attributeValue).add(data);
         }
-        for (ArrayList<Data> attributesData: attributeCount.values()
-             ) {
-            int positive=0;
-            int negative=0;
-            for (Data data: attributesData
-                 ) {
-                if(data.getCategory()){
+        for (ArrayList<Data> attributesData : attributeCount.values()
+                ) {
+            if (attributesData.isEmpty())
+                return 0;
+            int positive = 0;
+            int negative = 0;
+            for (Data data : attributesData
+                    ) {
+                if (data.getCategory()) {
                     positive++;
-                }
-                else {
+                } else {
                     negative++;
                 }
             }
-            entropy-=((double)(positive+negative)/(double)dataCount)*computeInfo(positive,negative);
-            positiveTotal+=positive;
-            negativeTotal+=negative;
+            entropy -= ((double) (positive + negative) / (double) dataCount) * computeInfo(positive, negative);
+            positiveTotal += positive;
+            negativeTotal += negative;
         }
         return entropy+computeInfo(positiveTotal,negativeTotal);
     }
@@ -144,7 +141,7 @@ public class DataSet {
     {
         double positiveRate = (double) positive/(double)(positive+negative);
         double negativeRate = (double) negative/(double)(positive+negative);
-        if(positiveRate==0 ||negativeRate==0)
+        if(positiveRate==0 || negativeRate==0)
             return 0;
         return (-1/Math.log10(2))*(positiveRate*Math.log10(positiveRate)+negativeRate*Math.log10(negativeRate));
     }

@@ -15,13 +15,15 @@ class Data {
      * Attributes and their value for the data.
      */
     private final Map<Integer,String> attributes;
+
+
     /**
      * Category of the data.
      */
-    private final Boolean category;
+    private Boolean category;
 
-    public Data(Boolean category) {
-        this.category = category;
+    public Data() {
+        this.category = false;
         attributes = new HashMap<>();
     }
 
@@ -36,4 +38,10 @@ class Data {
     public String getAttribute(Integer integer) {
         return attributes.get(integer);
     }
+
+    public void setCategory(Boolean category) {
+        this.category = category;
+    }
+
+
 }
