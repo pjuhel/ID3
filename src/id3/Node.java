@@ -10,19 +10,15 @@ import java.util.List;
 /**
  * Represent a node of the tree.
  */
-public class Node {
-    /**
-     * Parent node. If null, then the node is the root.
-     */
-    private Node parent;
+class Node {
     /**
      * Children of the current node.
      */
-    private List<Node> children;
+    private final List<Node> children;
     /**
      * id3.Data set of the node.
      */
-    private DataSet dataSet;
+    private final DataSet dataSet;
     /**
      * Label of the node.
      */
@@ -32,16 +28,18 @@ public class Node {
      */
     private int level;
 
-    public int getLevel() {
+    private int getLevel() {
         return level;
     }
 
     public Node(Node node, DataSet data,String value) {
         children = new ArrayList<>();
-        parent=node;
+        /*
+      Parent node. If null, then the node is the root.
+     */
         level=0;
-        if(parent!=null)
-            level=parent.getLevel()+1;
+        if(node !=null)
+            level= node.getLevel()+1;
         dataSet=data;
         label=value;
     }
@@ -72,7 +70,7 @@ public class Node {
 
     /**
      * If the current node is not a leaf, then generating the children.
-     * @return
+     * @return meh nothing important.
      */
     private boolean continueTree() {
         Integer id = dataSet.findBestAttribute();

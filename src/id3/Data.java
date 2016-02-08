@@ -10,23 +10,23 @@ import java.util.Map;
 /**
  * Represent one data.
  */
-public class Data {
+class Data {
     /**
      * Attributes and their value for the data.
      */
-    private Map<Integer,String> attributes;
+    private final Map<Integer,String> attributes;
     /**
      * Category of the data.
      */
-    private Boolean category;
+    private final Boolean category;
 
     public Data(Boolean category) {
         this.category = category;
         attributes = new HashMap<>();
     }
 
-    public String put(Integer key, String value) {
-        return attributes.put(key, value);
+    public void put(Integer key, String value) {
+        attributes.put(key, value);
     }
 
     public Boolean getCategory() {

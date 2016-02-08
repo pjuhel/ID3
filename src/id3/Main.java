@@ -5,9 +5,9 @@ import java.util.ArrayList;
 /**
  * Created by louis on 08/02/2016.
  */
-public class Main {
+class Main {
     public static void main(String[] args) {
-        DataSetInfo dataSetInfo = new DataSetInfo();
+        new DataSetInfo();
         int i=0;
         ArrayList<String> tmp = new ArrayList<>();
         tmp.add("Yes");

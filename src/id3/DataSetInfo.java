@@ -1,6 +1,5 @@
 package id3;
 
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -12,9 +11,9 @@ import java.util.Set;
 /**
  * Standard information about the data set.
  */
-public class DataSetInfo {
+class DataSetInfo {
     /**
-     * Map each attribute of the dataset with an unique key.
+     * Map each attribute of the data set with an unique key.
      */
     public static Map<Integer,Attribute> attributes;
 

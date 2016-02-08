@@ -3,6 +3,7 @@ package id3;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * Created by louis on 03/02/2016.
@@ -15,11 +16,11 @@ public class DataSet {
     /**
      * All data of the data set.
      */
-    private ArrayList<Data> data;
+    private final ArrayList<Data> data;
     /**
      * All the attributes key of the data set.
      */
-    private ArrayList<Integer> attributes;
+    private final ArrayList<Integer> attributes;
 
     public DataSet() {
         data = new ArrayList<>();
@@ -28,17 +29,16 @@ public class DataSet {
 
     /**
      * Add a data to the data set.
-     * @param data
-     * @return
+     * @param data the data to add
      */
-    public boolean add(Data data) {
-        return this.data.add(data);
+    public void add(Data data){
+        this.data.add(data);
     }
 
     /**
      * Check if one data of the data set is not of the requested value.
      * @param input : requested value.
-     * @return true if all data are of the category gave in inpuyt, false otherwise.
+     * @return true if all data are of the category gave in input, false otherwise.
      */
     private boolean Only(boolean input) {
         for (Data data: this.data
@@ -94,7 +94,7 @@ public class DataSet {
 
     /**
      * Compute the gain of the attribute
-     * @param key : attribute key, as defined in datasetinfo during dataset preparation.
+     * @param key : attribute key, as defined in DataSetInfo during data set preparation.
      * @return gain of the attribute
      */
     private double computeGain(Integer key) {
@@ -114,11 +114,11 @@ public class DataSet {
             String attributeValue = data.getAttribute(key);
             attributeCount.get(attributeValue).add(data);
         }
-        for (ArrayList<Data> attributesDatas: attributeCount.values()
+        for (ArrayList<Data> attributesData: attributeCount.values()
              ) {
             int positive=0;
             int negative=0;
-            for (Data data: attributesDatas
+            for (Data data: attributesData
                  ) {
                 if(data.getCategory()){
                     positive++;
@@ -160,7 +160,7 @@ public class DataSet {
 
         for (Data data: this.data
              ) {
-            if(data.getAttribute(id) == value) {
+            if(Objects.equals(data.getAttribute(id), value)) {
                 toReturn.add(data);
             }
         }
